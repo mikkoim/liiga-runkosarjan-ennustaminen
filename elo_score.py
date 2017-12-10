@@ -4,7 +4,77 @@ Created on Fri Dec  8 20:13:25 2017
 
 @author: Mikko Impiö
 
+Sisältää luokat pelaajien- ja pelaajalistojen hallintaan ja ELO-lukujen 
+kirjanpitoon.
+Sisältää myös funktiot ELO-lukujen laskentaan edellisten kausien perusteella, 
+sekä kauden pistemäärien ennustamiseen tietyillä pelaajarostereilla.
 
+LUOKAT:
+    
+    Pelaaja(): sisältää yksittäisen pelaajan tiedot
+    
+    Players(): lista pelaajista, listasta on mahdollista hakea
+            ELO-lukujen keskiarvot, pelaajien nimet, pelaajaoliot 
+            sekä ELO-luvut. Lista on myös mahdollista järjestää 
+            ELO-luvun perusteella
+            
+            METODIT:
+            getPlayers()
+            palauttaa listan pelaajaolioista
+            
+            getNames()
+            palauttaa listan pelaajien nimistä
+            
+            getELOs()
+            palauttaa listan pelaajien ELO-luvuista
+            
+            ELOmean()
+            laskee ja palauttaa pelaajalistassa olevien pelaajien 
+            ELO:jen keskiarvot
+            
+            playerELO(player_name)
+            palauttaa tietyn pelaajan ELO-luvun
+            
+            addPlayer(Pelaaja)
+            lisää pelaajaolion pelaajalistaan
+            
+            changeELO(ELO_change)
+            muuttaa KAIKKIEN listassa olevien pelaajien ELO-lukua
+            
+            resetELO(ELO=1500)
+            Nollaa KAIKKIEN listassa olevien pelaajien ELO-luvun 
+            valittuun lukuun(oletus 1500)
+            
+            getSorted(reverse = False)
+            Palauttaa pelaajalistan ELO-luvun mukaisessa järjestyksessä
+FUNKTIOT:
+    
+    train(p, kaudet, K, printOut = True)
+            Ajaa kausien ottelut läpi ja muuttaa pelaajalistan p ELO-painotukset
+            tämän mukaisesti.
+            
+            p = Players-olio kaikista pelaajista
+            kausi = kaudet jolla pelaajien ELO-luku painotetaan
+            K = ELO-luvun painotuskerroin
+            printOut = tulostetaanko pelin indeksi jossa ollaan menossa
+            
+    test(p, kausi, seasonELOs = None)
+            Ennustaa joukkueiden pisteet kaudella pelaajien ELO-arvojen
+            perusteella
+            
+            p = Players-olio kaikista pelaajista
+            kausi = ennustettava kausi ja sen pelit
+            seasonELOs = joukkuekohtaiset ELOt lasketaan ennen ennustamista
+            seasonELOs jättämällä pois jokaisen ottelun ELO lasketaan erikseen
+            riippuen peliin osallistuvista pelaajista
+            
+    seuraava_peli(kausi, p)
+            laskee seuraavan pelin tuloksen, ja korjaa ELO-arvoa tämän jälkeen 
+            pelin todellisen tuloksen perusteella
+            
+            p = Players-olio kaikista pelaajista
+            kausi = kausi, jota ollaan ennustamassa
+    
 !! Ohjelma olettaa, että pelitiedot sisältävät muuttujat 
 kausi1415, kausi1516, kausi1617 ja kausi1718 
 on luotu edellisten scraper.py- skriptin avulla
@@ -93,7 +163,9 @@ class Players:
         for i in indices:
             sortedPlayers.addPlayer(self.__playerlist[i])
         return sortedPlayers
-            
+   
+
+#### APUFUNKTIOT #####         
 """
 Järjestää dictionaryn arvon perusteella ja tulostaa sen
 ensimmäisen kuuden jälkeen viivat erottelua varten (6 parasta)
@@ -320,6 +392,8 @@ def test(p, kausi, seasonELOs = None):
         print(ind)
         
     return joukkueet
+    
+    
 #************* TEST ***********************************************
 #Määritä ennustettava kausi, sekä ennusteessa käytettävä ELO-tyyppi
 #seasonELOs = joukkuekohtaiset ELOt lasketaan ennen ennustamista

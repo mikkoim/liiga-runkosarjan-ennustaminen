@@ -4,12 +4,33 @@ Created on Fri Dec  8 16:54:19 2017
 
 @author: Mikko Impiö
 
+Sisältää game_players- funktion sekä skriptin SM-Liigan ottelukohtaisten
+pelaajakokoonpanojen ja tuloksien raapimiseen SM-Liigan tilastosivuilta.
 """
 
 import urllib.request as urllib
 from bs4 import BeautifulSoup
-url = "http://liiga.fi/ottelut/2017-2018/runkosarja/6/kokoonpanot/"
-
+"""
+Funktio hakee tietyltä ottelukokoonpanosivulta pelaajakokoonpanot ja ottelun
+tulokset, ja palauttaa nämä taulukossa muodossa:
+    
+0.Kotijoukkueen tiedot(array)
+    0.0.Kotijoukkueen nimi(string)
+    0.1.Kotijoukkueen maalit(int)
+    0.2.Kotijoukkueen pelaajat(array)
+        0.2.0.Pelaaja1
+        ...
+        0.2.20.Pelaaja21
+1.Vierasjoukkueen tiedot(array)
+    1.0.Vierasjoukkueen nimi(string)
+    1.1.Vierasjoukkueen maalit(int)
+    1.2.Vierasjoukkueen pelaajat(array)
+        1.2.0.Pelaaja1
+        ...
+        1.2.20.Pelaaja21
+2.Tieto jatkoajasta(boolean)
+     
+"""
 def game_players(url):
     page = urllib.urlopen(url)
     
